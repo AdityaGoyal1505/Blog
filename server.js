@@ -18,23 +18,24 @@ app.use(express.json());
 // ✅ Serve uploaded files correctly
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// ✅ API Routes should come BEFORE wildcard routes
+app.use("/api/posts", postRoutes);
+app.use("/api/auth", authRoutes);
+
+// ✅ Serve frontend static files
 app.use(express.static(path.join(__dirname, 'client')));
 
-// Root route serves index.html
+// ✅ Root route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 
-// Optionally: catch-all route for SPA (if using React Router)
+// ✅ Wildcard fallback for SPA — must be last
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 
-// API Routes
-app.use("/api/posts", postRoutes);
-app.use("/api/auth", authRoutes);
-
-// MongoDB Connection
+// ✅ MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() =>
