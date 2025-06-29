@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api/posts";
+const API_BASE = "/api/posts";
 const user = document.getElementById("admin-username");
 async function loadDashboard() {
   const token = localStorage.getItem("token");
